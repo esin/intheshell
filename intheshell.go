@@ -117,11 +117,24 @@ func centrifyText(inText string) string {
 	return resultString
 }
 
+// Right exiting from application
 func appExit() {
 	clearScreen()
+	//os.Stdout.Write([]byte(centerVertical()))
 	showCreds()
 	os.Stdout.Write([]byte("\033[?25h"))
 	os.Exit(0)
+}
+
+func centerVertical() string {
+	_, rows := getTTYSize()
+
+	resultString := "\n"
+	for i := 0; i < rows/2; i++ {
+		resultString += "\n"
+	}
+
+	return resultString
 }
 
 func main() {
@@ -149,7 +162,7 @@ func main() {
 
 	//1 scene
 	//Andrey Esin
-	os.Stdout.Write([]byte("\n\n\n\n"))
+	os.Stdout.Write([]byte(centerVertical()))
 	textShowSlow(centrifyText("Andrey Esin"))
 	time.Sleep(OneSec * 5)
 	textHideSlow(centrifyText("Andrey Esin"))
@@ -157,7 +170,7 @@ func main() {
 	clearScreen()
 	// 2 scene
 	// PRESENTS
-	os.Stdout.Write([]byte("\n\n\n\n"))
+	os.Stdout.Write([]byte(centerVertical()))
 	textShowSlow(centrifyText("PRESENTS"))
 	time.Sleep(OneSec * 5)
 	textHideSlow(centrifyText("PRESENTS"))
@@ -166,18 +179,16 @@ func main() {
 
 	// 3 scene
 	// GHOST IN THE SHELL (bash)
-	os.Stdout.Write([]byte("\n\n\n\n"))
+	os.Stdout.Write([]byte(centerVertical()))
 	textShowSlow(centrifyText("GHOST IN THE SHELL (bash)"))
 	time.Sleep(OneSec * 5)
 	textHideSlow(centrifyText("GHOST IN THE SHELL (bash)"))
 	time.Sleep(OneSec * 1)
 	clearScreen()
 
+	cols, _ := getTTYSize()
 	ghost := getGhost()
 	spaces := " "
-
-	cols, _ := getTTYSize()
-
 	for i := 0; i < cols-15-len(ps1str()); i++ {
 		clearScreen()
 		spaces += " "
@@ -192,7 +203,7 @@ func main() {
 	clearScreen()
 
 	//GHOST IN THE SHELL (bash)
-	os.Stdout.Write([]byte("\n\n\n\n"))
+	os.Stdout.Write([]byte(centerVertical()))
 	textShowSlow(centrifyText("THE END"))
 	time.Sleep(OneSec * 5)
 	textHideSlow(centrifyText("THE END"))
