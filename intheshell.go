@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"os"
 	"os/exec"
 	"os/signal"
@@ -87,17 +86,21 @@ func getTTYSize() (int, int) {
 	cmd := exec.Command("stty", "size")
 	cmd.Stdin = os.Stdin
 	out, err := cmd.Output()
+	println(string(out))
 	if err != nil {
-		log.Fatal(err)
+		//log.Fatal(err)
+		appExit()
 	}
 	outStr := strings.Replace(string(out), "\n", "", -1)
 	cols, err := strconv.Atoi(strings.Split(outStr, " ")[1])
 	if err != nil {
-		log.Fatal(err)
+		//log.Fatal(err)
+		appExit()
 	}
 	rows, err := strconv.Atoi(strings.Split(outStr, " ")[0])
 	if err != nil {
-		log.Fatal(err)
+		//log.Fatal(err)
+		appExit()
 	}
 	return cols, rows
 }
@@ -114,17 +117,30 @@ func centrifyText(inText string) string {
 	return resultString
 }
 
+func appExit() {
+	clearScreen()
+	showCreds()
+	os.Stdout.Write([]byte("\033[?25h"))
+	os.Exit(0)
+}
+
 func main() {
 	// Catch ctrl-c
 	c := make(chan os.Signal)
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 	go func() {
 		<-c
-		clearScreen()
-		showCreds()
+		appExit()
+	}()
+
+	// Don't allow using scp, ssh with params and similar
+	args := os.Args
+	if len(args) > 1 {
+		os.Stdout.Write([]byte("Hey, just try:" + Bold(" ssh ghost@theshell.xyz")))
+		os.Stdout.Write([]byte("\n"))
 		os.Stdout.Write([]byte("\033[?25h"))
 		os.Exit(0)
-	}()
+	}
 
 	clearScreen()
 
@@ -182,9 +198,5 @@ func main() {
 	textHideSlow(centrifyText("THE END"))
 	time.Sleep(OneSec * 1)
 
-	clearScreen()
-	showCreds()
-	// Return cursor
-	os.Stdout.Write([]byte("\033[?25h"))
-	os.Exit(0)
+	appExit()
 }
