@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"os/exec"
@@ -36,7 +35,7 @@ func getGhost() string {
 // Show text from black to white
 func textShowSlow(inString string) {
 	for i := 232; i <= 255; i++ {
-		os.Stdout.Write([]byte("\033[38;5;" + strconv.Itoa(i) + "m" + Bold(inString) + "\033[0m\r\r\r\r\r\r\r\r\r\r\r\r\r\r"))
+		os.Stdout.Write([]byte("\033[38;5;" + strconv.Itoa(i) + "m" + Bold(inString) + "\033[0m\r"))
 		time.Sleep(OneMSec * TextSpeed)
 		os.Stdout.Sync()
 	}
@@ -45,7 +44,7 @@ func textShowSlow(inString string) {
 // Show text from white to black
 func textHideSlow(inString string) {
 	for i := 255; i >= 232; i-- {
-		os.Stdout.Write([]byte("\033[38;5;" + strconv.Itoa(i) + "m" + Bold(inString) + "\033[0m\r\r\r\r\r\r\r\r\r\r\r\r"))
+		os.Stdout.Write([]byte("\033[38;5;" + strconv.Itoa(i) + "m" + Bold(inString) + "\033[0m\r"))
 		time.Sleep(OneMSec * TextSpeed)
 		os.Stdout.Sync()
 	}
@@ -83,26 +82,29 @@ func showCreds() {
 	os.Stdout.Sync()
 }
 
-// Get terminal columns count
-func getCols() int {
+// Get terminal count
+func getTTYSize() (int, int) {
 	cmd := exec.Command("stty", "size")
 	cmd.Stdin = os.Stdin
 	out, err := cmd.Output()
 	if err != nil {
 		log.Fatal(err)
 	}
-	//outStr :=
 	outStr := strings.Replace(string(out), "\n", "", -1)
 	cols, err := strconv.Atoi(strings.Split(outStr, " ")[1])
 	if err != nil {
 		log.Fatal(err)
 	}
-	return cols
+	rows, err := strconv.Atoi(strings.Split(outStr, " ")[0])
+	if err != nil {
+		log.Fatal(err)
+	}
+	return cols, rows
 }
 
 // Return string, which can be showed in horizontal center of terminal
 func centrifyText(inText string) string {
-	cols := getCols()
+	cols, _ := getTTYSize()
 	resultString := ""
 	spacesCount := (cols / 2) - (len(inText) / 2)
 	for i := 0; i < spacesCount; i++ {
@@ -157,8 +159,10 @@ func main() {
 
 	ghost := getGhost()
 	spaces := " "
-	fmt.Print("\033[?25l")
-	for i := 0; i < getCols()-15-len(ps1str()); i++ {
+
+	cols, _ := getTTYSize()
+
+	for i := 0; i < cols-15-len(ps1str()); i++ {
 		clearScreen()
 		spaces += " "
 
