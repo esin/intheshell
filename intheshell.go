@@ -86,7 +86,7 @@ func getTTYSize() (int, int) {
 	cmd := exec.Command("stty", "size")
 	cmd.Stdin = os.Stdin
 	out, err := cmd.Output()
-	println(string(out))
+	//println(string(out))
 	if err != nil {
 		//log.Fatal(err)
 		appExit()
