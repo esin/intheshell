@@ -5,8 +5,10 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"os/signal"
 	"strconv"
 	"strings"
+	"syscall"
 	"time"
 )
 
@@ -89,8 +91,8 @@ func getCols() int {
 	if err != nil {
 		log.Fatal(err)
 	}
-	outStr := string(out)
-	outStr = strings.Replace(outStr, "\n", "", -1)
+	//outStr :=
+	outStr := strings.Replace(string(out), "\n", "", -1)
 	cols, err := strconv.Atoi(strings.Split(outStr, " ")[1])
 	if err != nil {
 		log.Fatal(err)
@@ -111,9 +113,20 @@ func centrifyText(inText string) string {
 }
 
 func main() {
-	clearScreen()
-	// Hide cursor
+	// Catch ctrl-c
+	c := make(chan os.Signal)
+	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
+	go func() {
+		<-c
+		clearScreen()
+		showCreds()
+		os.Stdout.Write([]byte("\033[?25h"))
+		os.Exit(0)
+	}()
 
+	clearScreen()
+
+	// Hide cursor
 	os.Stdout.Write([]byte("\033[?25l"))
 
 	//1 scene
