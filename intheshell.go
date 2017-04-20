@@ -66,6 +66,7 @@ func ps1str() string {
 	return "ghost@shell:~$ "
 }
 
+// Show creds on exit
 func showCreds() {
 	os.Stdout.Write([]byte("\n\n"))
 	os.Stdout.Write([]byte(centrifyText("Created")))
