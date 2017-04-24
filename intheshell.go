@@ -140,7 +140,7 @@ func centerVertical() string {
 func main() {
 	// Catch ctrl-c
 	c := make(chan os.Signal)
-	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
+	signal.Notify(c, os.Interrupt, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
 	go func() {
 		<-c
 		appExit()
