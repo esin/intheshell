@@ -71,14 +71,22 @@ func showCreds() {
 	os.Stdout.Write([]byte("\n\n"))
 	os.Stdout.Write([]byte(centrifyText("Created")))
 	os.Stdout.Write([]byte("\n"))
-	os.Stdout.Write([]byte(centrifyText("by")))
+	os.Stdout.Write([]byte(centrifyText(" by")))
 	os.Stdout.Write([]byte("\n\n"))
 	os.Stdout.Write([]byte(Bold(centrifyText("Andrey Esin"))))
 	os.Stdout.Write([]byte("\n\n"))
 	os.Stdout.Write([]byte(centrifyText("[ twitter.com/la_stik ] [ t.me/la_stik ] [ andrey@esin.name ]")))
+	os.Stdout.Write([]byte("\n\n"))
+	os.Stdout.Write([]byte(Bold(centrifyText("Sources"))))
+	os.Stdout.Write([]byte("\n"))
+	os.Stdout.Write([]byte(centrifyText("[ github.com/esin/intheshell ]")))
+	os.Stdout.Write([]byte("\n"))
+	os.Stdout.Write([]byte(centrifyText("[ bitbucket.org/andrey_esin/intheshell ]")))
 	os.Stdout.Write([]byte("\n"))
 
 	os.Stdout.Sync()
+
+	time.Sleep(OneSec * 3)
 }
 
 // Get terminal count
@@ -120,7 +128,6 @@ func centrifyText(inText string) string {
 // Right exiting from application
 func appExit() {
 	clearScreen()
-	//os.Stdout.Write([]byte(centerVertical()))
 	showCreds()
 	os.Stdout.Write([]byte("\033[?25h"))
 	os.Exit(0)
