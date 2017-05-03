@@ -17,6 +17,8 @@ const (
 	TextSpeed = 50                // Text showing speed
 )
 
+var abortOp bool
+
 // Return Ghost and his height
 func getGhost() string {
 	ghost := ps1str() + " \n" +
@@ -34,6 +36,9 @@ func getGhost() string {
 // Show text from black to white
 func textShowSlow(inString string) {
 	for i := 232; i <= 255; i++ {
+		if abortOp {
+			break
+		}
 		os.Stdout.Write([]byte("\033[38;5;" + strconv.Itoa(i) + "m" + Bold(inString) + "\033[0m\r"))
 		time.Sleep(OneMSec * TextSpeed)
 		os.Stdout.Sync()
@@ -43,6 +48,9 @@ func textShowSlow(inString string) {
 // Show text from white to black
 func textHideSlow(inString string) {
 	for i := 255; i >= 232; i-- {
+		if abortOp {
+			break
+		}
 		os.Stdout.Write([]byte("\033[38;5;" + strconv.Itoa(i) + "m" + Bold(inString) + "\033[0m\r"))
 		time.Sleep(OneMSec * TextSpeed)
 		os.Stdout.Sync()
@@ -127,6 +135,7 @@ func centrifyText(inText string) string {
 
 // Right exiting from application
 func appExit() {
+	abortOp = true
 	clearScreen()
 	showCreds()
 	os.Stdout.Write([]byte("\033[?25h"))
@@ -140,7 +149,6 @@ func centerVertical() string {
 	for i := 0; i < rows/2; i++ {
 		resultString += "\n"
 	}
-
 	return resultString
 }
 
@@ -152,6 +160,8 @@ func main() {
 		<-c
 		appExit()
 	}()
+
+	abortOp = false
 
 	// Don't allow using scp, ssh with params and similar
 	args := os.Args
