@@ -58,5 +58,5 @@ chmod -x /etc/update-motd.d/*
 
 Then restart sshd
 ```sh
-/etc/init.d/sshd restart
+/etc/init.d/ssh restart
 ```
