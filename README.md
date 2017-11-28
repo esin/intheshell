@@ -8,7 +8,7 @@ useradd -m -s /usr/local/bin/intheshell ghost
 ```
 Remove password for _ghost_
 ```sh
-sed s/ghost:\!?:/ghost:U6aMy0wojraho:/g /etc/shadow -i
+sed -ri s/ghost:(!)?:/ghost:U6aMy0wojraho:/g /etc/shadow
 ```
 Allow empty password in sshd and add allowed users (file /etc/ssh/sshd_config)
 and some security changes
