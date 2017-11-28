@@ -8,7 +8,7 @@ useradd -m -s /usr/local/bin/intheshell ghost
 ```
 Remove password for _ghost_
 ```sh
-sed s/ghost::/ghost:U6aMy0wojraho:/g /etc/shadow -i
+sed s/ghost:\!?:/ghost:U6aMy0wojraho:/g /etc/shadow -i
 ```
 Allow empty password in sshd and add allowed users (file /etc/ssh/sshd_config)
 and some security changes
@@ -48,7 +48,7 @@ cp -v /lib64/ld-linux-x86-64.so.2 $dir/lib64/
 cat /etc/passwd | grep ghost > $dir/etc/passwd
 touch $dir/etc/group
 cp -av /bin/stty $dir/bin
-cp -av intheshell $dir/bin
+cp -av /usr/local/bin/intheshell $dir/bin
 ```
 
 Disable motd and other stuff on ssh login (not so beautyfull)
