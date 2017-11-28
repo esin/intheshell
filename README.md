@@ -36,6 +36,7 @@ Adding chroot for user ghost
 dir=/chroot/ghost
 mkdir -p $dir
 mkdir -p $dir/{dev,lib64,lib,bin,etc}
+mkdir -p $dir/usr/local/bin
 mknod -m 666 $dir/dev/null c 1 3
 mknod -m 666 $dir/dev/tty c 5 0
 mknod -m 666 $dir/dev/zero c 1 5
