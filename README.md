@@ -49,6 +49,7 @@ cat /etc/passwd | grep ghost > $dir/etc/passwd
 touch $dir/etc/group
 cp -av /bin/stty $dir/bin
 cp -av /usr/local/bin/intheshell $dir/bin
+cp -av /usr/local/bin/intheshell $dir/usr/local/bin
 ```
 
 Disable motd and other stuff on ssh login (not so beautyfull)
