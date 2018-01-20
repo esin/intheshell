@@ -94,7 +94,7 @@ func showCreds() {
 
 	os.Stdout.Sync()
 
-	time.Sleep(OneSec * 3)
+	time.Sleep(time.Second * 3)
 }
 
 // Get terminal count
@@ -158,6 +158,12 @@ func main() {
 	signal.Notify(c, os.Interrupt, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
 	go func() {
 		<-c
+		appExit()
+	}()
+
+	// 2 minutes enough to see the "movie"
+	go func() {
+        	time.Sleep(time.Second * 120)
 		appExit()
 	}()
 
