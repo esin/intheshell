@@ -13,7 +13,7 @@ RUN chmod -x /etc/update-motd.d/* && \
     sed -ri 's/X11Forwarding no/X11Forwarding yes/' /etc/ssh/sshd_config && \
     echo "AllowUsers ghost" >> /etc/ssh/sshd_config && \
     echo "AllowTcpForwarding no" >> /etc/ssh/sshd_config && \
-    sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd && \
+    sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
 
 EXPOSE 22222
 
