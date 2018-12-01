@@ -1,5 +1,14 @@
+##### [UPD] 2018-12-01
+It's a Docker time :)
 
-#### Installation instruction
+Just use command
+```bash
+docker run -d --restart always -p 22:22222 registry.gitlab.com/andreyesin/intheshell```
+to run latest Docker image, boo! :ghost:
+
+Don't forget, that image will bind 22 port (ssh), so change your host machine port to something else, 2222 for example
+
+#### [Deprecated] Installation instruction
 Upload _intheshell_ into /usr/local/bin/
 
 Create user *ghost*
