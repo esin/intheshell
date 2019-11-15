@@ -1,8 +1,15 @@
-FROM ubuntu:16.04
+FROM golang:1.13-buster as builder
 
-RUN apt-get update && apt-get install -y openssh-server
-RUN mkdir /var/run/sshd
-RUN chmod -x /etc/update-motd.d/* && \
+WORKDIR /src
+
+COPY intheshell.go /src/
+
+RUN go build intheshell.go
+
+FROM ubuntu:18.04
+
+RUN apt-get update && apt-get install -y openssh-server && \
+    mkdir /var/run/sshd && chmod -x /etc/update-motd.d/* && \
     useradd -m -s /usr/local/bin/intheshell ghost && \
     /etc/init.d/ssh stop && \
     sed -ri 's/ghost:(!)?:/ghost:U6aMy0wojraho:/' /etc/shadow && \
@@ -17,6 +24,6 @@ RUN chmod -x /etc/update-motd.d/* && \
 
 EXPOSE 22222
 
-COPY intheshell /usr/local/bin/
+COPY --from=builder /src/intheshell /usr/local/bin/
 
 CMD ["/usr/sbin/sshd", "-D"]
