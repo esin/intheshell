@@ -3,7 +3,7 @@ It's a Docker time :)
 
 Just use command
 ```sh
-docker run -d --restart always -p 22:22222 registry.gitlab.com/andreyesin/intheshell
+docker run -d --restart always -p 22:22222 esin/intheshell
 ```
 
 to run latest Docker image, boo! :ghost:
