@@ -69,7 +69,7 @@ cp -av /usr/local/bin/intheshell $dir/usr/local/bin
 
 Disable motd and other stuff on ssh login (not so beautyfull)
 ```sh
-chmod -x /etc/update-motd.d/*
+chmod -x /etc/update-motd.d/ \*
 ```
 
 Then restart sshd
