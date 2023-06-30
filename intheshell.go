@@ -83,13 +83,11 @@ func showCreds() {
 	os.Stdout.Write([]byte("\n\n"))
 	os.Stdout.Write([]byte(Bold(centrifyText("Andrey Esin"))))
 	os.Stdout.Write([]byte("\n\n"))
-	os.Stdout.Write([]byte(centrifyText("[ twitter.com/la_stik ] [ t.me/la_stik ] [ andrey@esin.name ]")))
+	os.Stdout.Write([]byte(centrifyText("[ https://hubzil.la/profile/andrey ] [ t.me/la_stik ] [ andrey@esin.email ]")))
 	os.Stdout.Write([]byte("\n\n"))
 	os.Stdout.Write([]byte(Bold(centrifyText("Sources"))))
 	os.Stdout.Write([]byte("\n"))
 	os.Stdout.Write([]byte(centrifyText("[ github.com/esin/intheshell ]")))
-	os.Stdout.Write([]byte("\n"))
-	os.Stdout.Write([]byte(centrifyText("[ bitbucket.org/andrey_esin/intheshell ]")))
 	os.Stdout.Write([]byte("\n"))
 
 	os.Stdout.Sync()
@@ -163,7 +161,7 @@ func main() {
 
 	// 2 minutes enough to see the "movie"
 	go func() {
-        	time.Sleep(time.Second * 120)
+		time.Sleep(time.Second * 120)
 		appExit()
 	}()
 

@@ -1,4 +1,4 @@
-FROM golang:1.13-buster as builder
+FROM golang:1.19-buster as builder
 
 WORKDIR /src
 
@@ -13,14 +13,15 @@ RUN apt-get update && apt-get install -y openssh-server && \
     useradd -m -s /usr/local/bin/intheshell ghost && \
     /etc/init.d/ssh stop && \
     sed -ri 's/ghost:(!)?:/ghost:U6aMy0wojraho:/' /etc/shadow && \
-    sed -ri 's/Port 22/Port 22222/' /etc/ssh/sshd_config &&\
+    sed -ri 's/#Port 22/Port 22222/' /etc/ssh/sshd_config &&\
     sed -ri 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config &&\
-    sed -ri 's/PermitEmptyPasswords no/PermitEmptyPasswords yes/' /etc/ssh/sshd_config &&\
+    sed -ri 's/#PermitEmptyPasswords no/PermitEmptyPasswords yes/' /etc/ssh/sshd_config &&\
     sed -ri 's@Subsystem sftp /usr/lib/openssh/sftp-server@@' /etc/ssh/sshd_config && \
     sed -ri 's/X11Forwarding no/X11Forwarding yes/' /etc/ssh/sshd_config && \
     echo "AllowUsers ghost" >> /etc/ssh/sshd_config && \
     echo "AllowTcpForwarding no" >> /etc/ssh/sshd_config && \
-    sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+    sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd && \
+    apt-get remove -y && apt-get autoclean -y
 
 EXPOSE 22222
 

@@ -3,7 +3,7 @@ It's a Docker time :)
 
 Just use command
 ```sh
-docker run -d --restart always -p 22:22222 es1n/intheshell
+docker run -d --restart always --name intheshell -p 22:22222 es1n/intheshell
 ```
 
 to run latest Docker image, boo! :ghost:
